@@ -22,6 +22,7 @@ class Revenue {
     private BigDecimal amount;
     private LocalDate date;
 
+
     @ManyToOne
     @JoinColumn(name = "budget_id")
     private Budget budget;

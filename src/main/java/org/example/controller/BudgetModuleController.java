@@ -22,7 +22,7 @@ public class BudgetModuleController {
     public ResponseEntity<BudgetDto> createBudget(@RequestBody BudgetCreatedDto budgetCreatedDto) {
         try {
             BudgetDto budgetDto = budgetFacade.createBudget(budgetCreatedDto.name());
-            return ResponseEntity.status(HttpStatus.CREATED).body(BudgetDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(budgetDto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }

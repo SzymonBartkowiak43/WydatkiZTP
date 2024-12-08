@@ -14,15 +14,15 @@ import java.util.List;
 public class BudgetDto {
     private String name;
     private BigDecimal amount;
-    private List<String> categories;
-    private List<RevenueDto> revenues;
-    private List<ExpenseDto> expenses;
+//    private List<String> categories;
+//    private List<RevenueDto> revenues;
+//    private List<ExpenseDto> expenses;
 
     public BudgetDto(String name, BigDecimal amount) {
         this.name = name;
         this.amount = amount;
-        this.categories = new ArrayList<>();
-        this.revenues = new ArrayList<>();
-        this.expenses = new ArrayList<>();
+//        this.categories = new ArrayList<>();
+//        this.revenues = new ArrayList<>();
+//        this.expenses = new ArrayList<>();
     }
 }

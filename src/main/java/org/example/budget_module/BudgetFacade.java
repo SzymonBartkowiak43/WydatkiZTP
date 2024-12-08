@@ -2,6 +2,7 @@ package org.example.budget_module;
 
 import lombok.AllArgsConstructor;
 import org.example.budget_module.dto.BudgetDto;
+import org.example.budget_module.dto.ExpenseDto;
 import org.example.budget_module.dto.RevenueDto;
 import org.springframework.stereotype.Component;
 
@@ -13,17 +14,13 @@ public class BudgetFacade {
 
     private final BudgetService budgetService;
 
-    public Long createBudget(String name) {
+    public BudgetDto createBudget(String name) {
         Budget budget = budgetService.createBudget(name);
-
-        bu
-
 
         return BudgetDto.builder()
                 .name(budget.getName())
                 .amount(budget.getAmount())
-                .expenses(budget.getExpenses())
-                .build()
+                .build();
     }
 
     public Long addRevenue(Long budgetId, RevenueDto revenueDto) {
