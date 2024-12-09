@@ -2,8 +2,8 @@ package org.example.budget_module;
 
 import lombok.AllArgsConstructor;
 import org.example.budget_module.dto.BudgetDto;
-import org.example.budget_module.dto.ExpenseDto;
 import org.example.budget_module.dto.RevenueDto;
+import org.example.report_module.ReportFacade;
 import org.springframework.stereotype.Component;
 
 
@@ -13,20 +13,39 @@ import org.springframework.stereotype.Component;
 public class BudgetFacade {
 
     private final BudgetService budgetService;
+    private final ReportFacade reportFacade = ReportFacade.getInstance();
 
     public BudgetDto createBudget(String name) {
         Budget budget = budgetService.createBudget(name);
 
-        return BudgetDto.builder()
-                .name(budget.getName())
-                .amount(budget.getAmount())
-                .build();
+        return new BudgetDto(budget.getId(), budget.getName(), budget.getAmount());
     }
 
     public Long addRevenue(Long budgetId, RevenueDto revenueDto) {
-        budgetService.addRevenueToBudget(budgetId, revenueDto);
+        Long l = budgetService.addRevenueToBudget(budgetId, revenueDto);
         return budgetId;
     }
+
+    public String generateRaport() {
+        reportFacade.generate("weekly");
+        return "success";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //    public BudgetDto addCategoryToBudget(String budgetName, String categoryName) {
 //        Category category = budgetService.addCategoryToBudget(budgetName, categoryName)

@@ -14,7 +14,7 @@ class BudgetService {
 
     private final BudgetRepository budgetRepository;
 
-    public Budget createBudget(String name) {
+    Budget createBudget(String name) {
         budgetRepository.findByName(name).ifPresent(budget -> {
             throw new IllegalArgumentException("Budget with the name " + name + " already exists.");
         });
@@ -24,7 +24,7 @@ class BudgetService {
     }
 
 
-    public Long addRevenueToBudget(Long budgetId, RevenueDto revenueDto) {
+    Long addRevenueToBudget(Long budgetId, RevenueDto revenueDto) {
         Budget budget = budgetRepository.findById(budgetId)
                 .orElseThrow(() -> new RuntimeException("Budget not found!"));
 
@@ -37,6 +37,13 @@ class BudgetService {
         budgetRepository.save(budget);
         return budgetId;
     }
+
+
+
+
+
+
+
 
 //    public Optional<Category> addCategoryToBudget(String budgetName, String categoryName) {
 //        Budget budget = budgetRepository.findByName(budgetName)

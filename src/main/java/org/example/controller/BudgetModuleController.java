@@ -4,8 +4,8 @@ package org.example.controller;
 import lombok.AllArgsConstructor;
 import org.example.budget_module.BudgetFacade;
 import org.example.budget_module.dto.BudgetDto;
-import org.example.budget_module.dto.ExpenseDto;
 import org.example.budget_module.dto.RevenueDto;
+import org.example.controller.dto.BudgetCreatedDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +32,12 @@ public class BudgetModuleController {
     public ResponseEntity<Long> addRevenue(@PathVariable Long id, @RequestBody RevenueDto revenueDto) {
         Long budgetId = budgetFacade.addRevenue(id, revenueDto);
         return ResponseEntity.ok(budgetId);
+    }
+
+    @GetMapping("/report")
+    public ResponseEntity<String> generateReport() {
+        String report = budgetFacade.generateRaport();
+        return ResponseEntity.ok(report);
     }
 
 //    @PostMapping("/budget/{budgetName}/category")
