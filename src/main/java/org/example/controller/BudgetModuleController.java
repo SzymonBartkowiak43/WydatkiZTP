@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.example.budget_module.BudgetFacade;
 import org.example.budget_module.dto.BudgetDto;
 import org.example.budget_module.dto.RevenueDto;
@@ -15,6 +16,12 @@ public class BudgetModuleController {
 
     private final BudgetFacade budgetFacade;
 
+    @GetMapping("/budget/{id}")
+    public ResponseEntity<BudgetDto> getBudget(@PathVariable Long id) {
+        BudgetDto budgetDto =  budgetFacade.getBudget(id);
+
+        return ResponseEntity.ok(budgetDto);
+    }
 
     @PostMapping("/budget/create")
     public ResponseEntity<BudgetDto> createBudget(@RequestBody BudgetCreatedDto budgetCreatedDto) {
@@ -38,15 +45,13 @@ public class BudgetModuleController {
         return ResponseEntity.ok(report);
     }
 
-//    @PostMapping("/budget/{budgetName}/category")
-//    public ResponseEntity<BudgetDto> addCategoryToBudget(
-//            @PathVariable String budgetName,
-//            @RequestParam String categoryName) {
-//       // BudgetDto budgetDto = budgetFacade.addCategoryToBudget(budgetName, categoryName);
-//        //return ResponseEntity.ok(budgetDto);
-//        return null;
-//    }
-//
+    @PostMapping("/budget/{id}/category")
+    public ResponseEntity<BudgetDto> addCategoryToBudget(
+            @PathVariable Long id,
+            @RequestParam String categoryName) {
+        BudgetDto budgetDto = budgetFacade.addCategoryToBudget(id, categoryName);
+        return ResponseEntity.ok(budgetDto);
+    }
 
 //
 //    @PostMapping("/budget/{budgetName}/expense")

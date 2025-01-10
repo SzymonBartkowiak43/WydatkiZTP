@@ -23,7 +23,6 @@ class Category {
     private Budget budget;
 
 
-
     public Category(String name) {
         this.name = name;
     }

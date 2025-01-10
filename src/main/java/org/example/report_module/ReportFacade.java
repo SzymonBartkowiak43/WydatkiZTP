@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ReportFacade {
-
     private static ReportFacade instance;
     private final ReportService reportService;
 

@@ -13,6 +13,7 @@ import java.util.Optional;
 class BudgetService {
 
     private final BudgetRepository budgetRepository;
+    private final CategoryRepository categoryRepository;
 
     Budget createBudget(String name) {
         budgetRepository.findByName(name).ifPresent(budget -> {
@@ -38,12 +39,24 @@ class BudgetService {
         return budgetId;
     }
 
+    Budget addCategory(Long id, String categoryName) {
+        Budget budget = budgetRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Budget not found"));
 
+        Optional<Category> addedCategory = budget.addCategory(categoryName);
+        if (addedCategory.isEmpty()) {
+            System.out.println(";c");
+        }
 
+        categoryRepository.save(addedCategory.get());
+        Budget save = budgetRepository.save(budget);
 
+        return save;
+    }
 
-
-
+    public Budget getBudget(Long id) {
+        return budgetRepository.findById(id).get();
+    }
 
 //    public Optional<Category> addCategoryToBudget(String budgetName, String categoryName) {
 //        Budget budget = budgetRepository.findByName(budgetName)
@@ -57,4 +70,5 @@ class BudgetService {
 //        budget.addExpense(expense);
 //        budgetRepository.save(budget);
 //    }
+
 }
