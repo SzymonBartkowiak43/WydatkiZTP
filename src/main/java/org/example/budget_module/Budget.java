@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Getter
@@ -49,16 +50,16 @@ class Budget {
         this.amount = this.amount.add(bigDecimal);
     }
 
-//    Optional<Category> addCategory(String categoryName) {
-//        boolean exists = categories.stream().anyMatch(c -> c.getName().equalsIgnoreCase(categoryName));
-//        if (exists) {
-//            return Optional.empty();
-//        }
-//        Category category = new Category(categoryName);
-//        category.setBudget(this);
-//        categories.add(category);
-//        return Optional.of(category);
-//    }
+    Optional<Category> addCategory(String categoryName) {
+        boolean exists = categories.stream().anyMatch(c -> c.getName().equalsIgnoreCase(categoryName));
+        if (exists) {
+            return Optional.empty();
+        }
+        Category category = new Category(categoryName);
+        category.setBudget(this);
+        categories.add(category);
+        return Optional.of(category);
+    }
 //
 //
 //    void addExpense(Expense expense) {

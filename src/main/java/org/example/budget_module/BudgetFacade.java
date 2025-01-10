@@ -33,20 +33,16 @@ public class BudgetFacade {
         return "success";
     }
 
+    public BudgetDto addCategoryToBudget(Long id, String categoryName) {
+        Budget budget = budgetService.addCategory(id, categoryName);
 
+        return new BudgetDto(budget.getId(), budget.getName(), budget.getAmount());
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    public BudgetDto getBudget(Long id) {
+        Budget budget = budgetService.getBudget(id);
+        return new BudgetDto(budget.getId(), budget.getName(), budget.getAmount());
+    }
 
 
 //    public BudgetDto addCategoryToBudget(String budgetName, String categoryName) {
