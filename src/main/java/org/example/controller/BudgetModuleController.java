@@ -1,6 +1,5 @@
 package org.example.controller;
 
-
 import lombok.AllArgsConstructor;
 import org.example.budget_module.BudgetFacade;
 import org.example.budget_module.dto.BudgetDto;
@@ -9,8 +8,6 @@ import org.example.controller.dto.BudgetCreatedDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-// bez reacta postman starczy 
 
 @RestController
 @AllArgsConstructor
@@ -41,13 +38,14 @@ public class BudgetModuleController {
         return ResponseEntity.ok(report);
     }
 
-//    @PostMapping("/budget/{budgetName}/category")
-//    public ResponseEntity<BudgetDto> addCategoryToBudget(
-//            @PathVariable String budgetName,
-//            @RequestParam String categoryName) {
-//        BudgetDto budgetDto = budgetFacade.addCategoryToBudget(budgetName, categoryName);
-//        return ResponseEntity.ok(budgetDto);
-//    }
+    @PostMapping("/budget/{budgetName}/category")
+    public ResponseEntity<BudgetDto> addCategoryToBudget(
+            @PathVariable String budgetName,
+            @RequestParam String categoryName) {
+       // BudgetDto budgetDto = budgetFacade.addCategoryToBudget(budgetName, categoryName);
+        //return ResponseEntity.ok(budgetDto);
+        return null;
+    }
 //
 
 //
@@ -58,7 +56,5 @@ public class BudgetModuleController {
 //        BudgetDto budgetDto = budgetFacade.addExpense(budgetName, expenseDto);
 //        return ResponseEntity.ok(budgetDto);
 //    }
-
-
 
 }
