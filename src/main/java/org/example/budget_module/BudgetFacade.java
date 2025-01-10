@@ -6,6 +6,7 @@ import org.example.budget_module.dto.RevenueDto;
 import org.example.report_module.ReportFacade;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 
 
 @AllArgsConstructor
@@ -15,8 +16,9 @@ public class BudgetFacade {
     private final BudgetService budgetService;
     private final ReportFacade reportFacade = ReportFacade.getInstance();
 
-    public BudgetDto createBudget(String name) {
-        Budget budget = budgetService.createBudget(name);
+    public BudgetDto createBudget(String name, BigDecimal amount) {
+        Budget budget = budgetService.createBudget(name, amount);
+
 
         return new BudgetDto(budget.getId(), budget.getName(), budget.getAmount());
     }

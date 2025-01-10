@@ -14,12 +14,12 @@ class BudgetService {
 
     private final BudgetRepository budgetRepository;
 
-    Budget createBudget(String name) {
+    Budget createBudget(String name, BigDecimal amount) {
         budgetRepository.findByName(name).ifPresent(budget -> {
             throw new IllegalArgumentException("Budget with the name " + name + " already exists.");
         });
 
-        Budget newBudget = new Budget(name, BigDecimal.ZERO);
+        Budget newBudget = new Budget(name, amount);
         return budgetRepository.save(newBudget);
     }
 

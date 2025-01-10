@@ -1,4 +1,6 @@
 package org.example.controller.dto;
 
-public record BudgetCreatedDto(String name) {
+import java.math.BigDecimal;
+
+public record BudgetCreatedDto(String name, BigDecimal amount) {
 }
