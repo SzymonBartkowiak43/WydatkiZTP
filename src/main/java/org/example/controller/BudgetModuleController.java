@@ -36,9 +36,9 @@ public class BudgetModuleController {
     }
 
     @PostMapping("/budget/{id}/revenue")
-    public ResponseEntity<Long> addRevenue(@PathVariable Long id, @RequestBody RevenueDto revenueDto) {
-        Long budgetId = budgetFacade.addRevenue(id, revenueDto);
-        return ResponseEntity.ok(budgetId);
+    public ResponseEntity<BudgetDto> addRevenue(@PathVariable Long id, @RequestBody RevenueDto revenueDto) {
+        BudgetDto budgetDto = budgetFacade.addRevenue(id, revenueDto);
+        return ResponseEntity.ok(budgetDto);
     }
 
     @GetMapping("/report")

@@ -1,6 +1,7 @@
 package org.example.budget_module;
 
 import lombok.AllArgsConstructor;
+import org.example.budget_module.dto.BudgetDto;
 import org.example.budget_module.dto.ExpenseDto;
 import org.example.budget_module.dto.RevenueDto;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ class BudgetService {
     }
 
 
-    Long addRevenueToBudget(Long budgetId, RevenueDto revenueDto) {
+    Budget addRevenueToBudget(Long budgetId, RevenueDto revenueDto) {
         Budget budget = budgetRepository.findById(budgetId)
                 .orElseThrow(() -> new RuntimeException("Budget not found!"));
 
@@ -37,8 +38,8 @@ class BudgetService {
         budget.addRevenue(revenue);
         budget.addAmount(revenueDto.getAmount());
 
-        budgetRepository.save(budget);
-        return budgetId;
+        Budget save = budgetRepository.save(budget);
+        return save;
     }
 
     Budget addCategory(Long id, String categoryName) {
@@ -64,23 +65,27 @@ class BudgetService {
         Budget budget = budgetRepository.findById(budgetId)
                 .orElseThrow(() -> new IllegalArgumentException("Budget not found"));
 
-        if(expenseDto.getCategory().length() < 2) {
-            expenseDto.setCategory("none");
-        }
+        Category category = budget.getCategories().stream()
+                .filter(cat -> cat.getName().equals(expenseDto.getCategory()))
+                .findFirst()
+                .orElseGet(() -> {
+                    Category newCategory = new Category(expenseDto.getCategory());
+                    budget.addCategory(newCategory.getName());
+                    return categoryRepository.save(newCategory);
+                });
 
         Expense expense = new Expense(
                 expenseDto.getDescription(),
                 expenseDto.getAmount(),
-                expenseDto.getCategory()
+                category.getName()
         );
 
         expense.setBudget(budget);
         expenseRepository.save(expense);
 
         budget.addExpense(expenseDto.getAmount());
-        Budget save = budgetRepository.save(budget);
 
-        return save;
+        return budgetRepository.save(budget);
     }
 
 }
