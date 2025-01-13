@@ -1,14 +1,30 @@
 package org.example.report_module;
 
-class MonthlyReportHandler extends ReportHandler {
+import org.example.budget_module.dto.BudgetDto;
+import org.example.budget_module.dto.ExpenseDto;
+import org.example.report_module.dto.ReportDto;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+
+public class MonthlyReportHandler extends ReportHandler {
     @Override
-    public void handleRequest(String reportType) {
+    public void handleRequest(String reportType, BudgetDto budgetDto, ReportDto report) {
         if ("monthly".equalsIgnoreCase(reportType)) {
-            System.out.println("Generuję raport miesięczny");
+            LocalDate now = LocalDate.now();
+            LocalDate monthAgo = now.minusMonths(1);
+
+            List<ExpenseDto> monthlyExpenses = budgetDto.getExpenses().stream()
+                    .filter(expense -> expense.getDate().isAfter(monthAgo))
+                    .toList();
+
+            report.setExpenses(monthlyExpenses);
+            report.setTotalAmount(monthlyExpenses.stream()
+                    .map(ExpenseDto::getAmount)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add));
         } else if (nextHandler != null) {
-            nextHandler.handleRequest(reportType);
-        } else {
-            System.out.println("Nieobsługiwany typ raportu: " + reportType);
+            nextHandler.handleRequest(reportType, budgetDto, report);
         }
     }
 }

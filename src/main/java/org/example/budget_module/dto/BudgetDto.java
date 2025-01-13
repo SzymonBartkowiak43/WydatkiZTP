@@ -18,24 +18,6 @@ public class BudgetDto {
     private List<RevenueDto> revenues;
     private List<ExpenseDto> expenses;
 
-    public BudgetDto(Long id,String name, BigDecimal amount) {
-        this.id = id;
-        this.name = name;
-        this.amount = amount;
-        this.categories = new ArrayList<>();
-        this.revenues = new ArrayList<>();
-        this.expenses = new ArrayList<>();
-    }
-
-    public BudgetDto(Long id,String name, BigDecimal amount, List<CategoryDto> categories) {
-        this.id = id;
-        this.name = name;
-        this.amount = amount;
-        this.categories = categories;
-        this.revenues = new ArrayList<>();
-        this.expenses = new ArrayList<>();
-    }
-
     public BudgetDto(Long id, String name, BigDecimal amount, List<CategoryDto> categories, List<ExpenseDto> expenses, List<RevenueDto> revenues) {
         this.id = id;
         this.name = name;

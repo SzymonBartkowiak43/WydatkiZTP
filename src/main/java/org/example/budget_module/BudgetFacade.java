@@ -6,6 +6,8 @@ import org.example.budget_module.dto.CategoryDto;
 import org.example.budget_module.dto.ExpenseDto;
 import org.example.budget_module.dto.RevenueDto;
 import org.example.report_module.ReportFacade;
+import org.example.report_module.dto.CreateReportDto;
+import org.example.report_module.dto.ReportDto;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -51,9 +53,11 @@ public class BudgetFacade {
         return getBudgetDto(budget);
     }
 
-    public String generateRaport() {
-        reportFacade.generate("weekly");
-        return "success";
+    public ReportDto generateReport(CreateReportDto createReportDto, Long budgetId) {
+        BudgetDto budget = getBudget(budgetId);
+
+        ReportDto reportDto = reportFacade.generate(createReportDto.period(),budget);
+        return reportDto;
     }
 
 
@@ -67,6 +71,7 @@ public class BudgetFacade {
                         .description(expense.getDescription())
                         .amount(expense.getAmount())
                         .category(expense.getCategory())
+                        .date(expense.getDate())
                         .build())
                 .toList();
 

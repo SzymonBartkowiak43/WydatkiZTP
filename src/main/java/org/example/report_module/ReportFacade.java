@@ -1,6 +1,8 @@
 package org.example.report_module;
 
 
+import org.example.budget_module.dto.BudgetDto;
+import org.example.report_module.dto.ReportDto;
 import org.springframework.stereotype.Component;
 
 
@@ -21,7 +23,9 @@ public class ReportFacade {
         return instance;
     }
 
-    public void generate(String reportType) {
-        reportService.createReport(reportType);
+    public ReportDto generate(String reportType, BudgetDto budget) {
+        ReportDto report = ReportDto.builder().build();
+        reportService.createReport(reportType, budget);
+        return report;
     }
 }

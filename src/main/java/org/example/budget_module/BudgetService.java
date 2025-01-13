@@ -77,7 +77,8 @@ class BudgetService {
         Expense expense = new Expense(
                 expenseDto.getDescription(),
                 expenseDto.getAmount(),
-                category.getName()
+                category.getName(),
+                expenseDto.getDate()
         );
 
         expense.setBudget(budget);

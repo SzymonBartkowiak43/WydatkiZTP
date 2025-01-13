@@ -14,10 +14,12 @@ public class ExpenseDto {
     private String description;
     private BigDecimal amount;
     private String category;
+    private LocalDate date;
 
-    public ExpenseDto(String description, BigDecimal amount, String category) {
+    public ExpenseDto(String description, BigDecimal amount, String category,LocalDate date) {
         this.description = description;
         this.amount = amount;
         this.category = category;
+        this.date = date;
     }
 }

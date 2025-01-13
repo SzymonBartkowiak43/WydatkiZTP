@@ -1,21 +1,23 @@
 package org.example.report_module;
 
+import org.example.budget_module.dto.BudgetDto;
+import org.example.report_module.dto.ReportDto;
 import org.springframework.stereotype.Service;
 
 @Service
 class ReportService {
 
-    public void createReport(String reportType) {
+    public void createReport(String reportType, BudgetDto budgetDto) {
         ReportHandler weeklyHandler = new WeeklyReportHandler();
         ReportHandler monthlyHandler = new MonthlyReportHandler();
         ReportHandler annualHandler = new AnnualReportHandler();
 
-        // Setting up the chain of responsibility
         weeklyHandler.setNextHandler(monthlyHandler);
         monthlyHandler.setNextHandler(annualHandler);
 
-        // Process the request
-        weeklyHandler.handleRequest(reportType);
+        ReportDto report = ReportDto.builder().build();
+        weeklyHandler.handleRequest(reportType, budgetDto, report);
     }
+
 
 }

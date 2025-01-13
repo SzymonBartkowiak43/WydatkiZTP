@@ -1,13 +1,14 @@
 package org.example.controller;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.example.budget_module.BudgetFacade;
 import org.example.budget_module.dto.BudgetDto;
 import org.example.budget_module.dto.CreateCategory;
 import org.example.budget_module.dto.ExpenseDto;
 import org.example.budget_module.dto.RevenueDto;
 import org.example.controller.dto.BudgetCreatedDto;
+import org.example.report_module.dto.CreateReportDto;
+import org.example.report_module.dto.ReportDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,12 +42,6 @@ public class BudgetModuleController {
         return ResponseEntity.ok(budgetDto);
     }
 
-    @GetMapping("/report")
-    public ResponseEntity<String> generateReport() {
-        String report = budgetFacade.generateRaport();
-        return ResponseEntity.ok(report);
-    }
-
     @PostMapping("/budget/{id}/category")
     public ResponseEntity<BudgetDto> addCategoryToBudget(
             @PathVariable Long id,
@@ -62,6 +57,13 @@ public class BudgetModuleController {
             @RequestBody ExpenseDto expenseDto) {
         BudgetDto budgetDto = budgetFacade.addExpense(id, expenseDto);
         return ResponseEntity.ok(budgetDto);
+    }
+
+    @GetMapping("/{id}/report")
+    public ResponseEntity<ReportDto> generateReport(@PathVariable Long id,
+                                                    @RequestBody CreateReportDto createReportDto) {
+        ReportDto report = budgetFacade.generateReport(createReportDto,id);
+        return ResponseEntity.ok(report);
     }
 
 }
