@@ -1,6 +1,5 @@
 package org.example.budget_module.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,12 +17,57 @@ public class BudgetDto {
     private List<RevenueDto> revenues;
     private List<ExpenseDto> expenses;
 
-    public BudgetDto(Long id, String name, BigDecimal amount, List<CategoryDto> categories, List<ExpenseDto> expenses, List<RevenueDto> revenues) {
-        this.id = id;
-        this.name = name;
-        this.amount = amount;
-        this.categories = categories;
-        this.expenses = expenses;
-        this.revenues = revenues;
+    public BudgetDto(BudgetDtoBuilder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+        this.amount = builder.amount;
+        this.categories = builder.categories;
+        this.revenues = builder.revenues;
+        this.expenses = builder.expenses;
+    }
+
+
+
+    public static class BudgetDtoBuilder {
+        private Long id;
+        private String name;
+        private BigDecimal amount;
+        private List<CategoryDto> categories = new ArrayList<>();
+        private List<RevenueDto> revenues = new ArrayList<>();
+        private List<ExpenseDto> expenses = new ArrayList<>();
+
+        public BudgetDtoBuilder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public BudgetDtoBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public BudgetDtoBuilder amount(BigDecimal amount) {
+            this.amount = amount;
+            return this;
+        }
+
+        public BudgetDtoBuilder categories(List<CategoryDto> categories) {
+            this.categories = categories != null ? categories : new ArrayList<>();
+            return this;
+        }
+
+        public BudgetDtoBuilder revenues(List<RevenueDto> revenues) {
+            this.revenues = revenues != null ? revenues : new ArrayList<>();
+            return this;
+        }
+
+        public BudgetDtoBuilder expenses(List<ExpenseDto> expenses) {
+            this.expenses = expenses != null ? expenses : new ArrayList<>();
+            return this;
+        }
+
+        public BudgetDto build() {
+            return new BudgetDto(this);
+        }
     }
 }
