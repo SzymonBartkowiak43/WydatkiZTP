@@ -17,8 +17,9 @@ public class WeeklyReportHandler extends ReportHandler {
             LocalDate weekAgo = now.minusWeeks(1);
 
             List<ExpenseDto> weeklyExpenses = budgetDto.getExpenses().stream()
-                    .filter(expense -> expense.getDate().equals(weekAgo))
+                    .filter(expense -> expense.getDate().isAfter(weekAgo.minusDays(1)) && expense.getDate().isBefore(now.plusDays(1)))
                     .toList();
+
 
             report.setExpenses(weeklyExpenses);
             report.setTotalAmount(weeklyExpenses.stream()
@@ -29,3 +30,4 @@ public class WeeklyReportHandler extends ReportHandler {
         }
     }
 }
+

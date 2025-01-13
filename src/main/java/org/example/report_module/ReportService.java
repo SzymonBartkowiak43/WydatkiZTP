@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 class ReportService {
 
-    public void createReport(String reportType, BudgetDto budgetDto) {
+    public void createReport(String reportType, BudgetDto budgetDto, ReportDto report) {
         ReportHandler weeklyHandler = new WeeklyReportHandler();
         ReportHandler monthlyHandler = new MonthlyReportHandler();
         ReportHandler annualHandler = new AnnualReportHandler();
@@ -15,9 +15,9 @@ class ReportService {
         weeklyHandler.setNextHandler(monthlyHandler);
         monthlyHandler.setNextHandler(annualHandler);
 
-        ReportDto report = ReportDto.builder().build();
         weeklyHandler.handleRequest(reportType, budgetDto, report);
     }
+
 
 
 }

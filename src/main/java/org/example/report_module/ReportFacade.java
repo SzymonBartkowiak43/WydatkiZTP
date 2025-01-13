@@ -25,7 +25,7 @@ public class ReportFacade {
 
     public ReportDto generate(String reportType, BudgetDto budget) {
         ReportDto report = ReportDto.builder().build();
-        reportService.createReport(reportType, budget);
+        reportService.createReport(reportType, budget,report);
         return report;
     }
 }

@@ -16,15 +16,20 @@ public class AnnualReportHandler extends ReportHandler {
             LocalDate yearAgo = now.minusYears(1);
 
             List<ExpenseDto> annualExpenses = budgetDto.getExpenses().stream()
-                    .filter(expense -> expense.getDate().isAfter(yearAgo))
+                    .filter(expense ->
+                            !expense.getDate().isBefore(yearAgo) &&
+                                    !expense.getDate().isAfter(now))
                     .toList();
-
             report.setExpenses(annualExpenses);
-            report.setTotalAmount(annualExpenses.stream()
+            BigDecimal totalAmount = annualExpenses.stream()
                     .map(ExpenseDto::getAmount)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add));
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+            report.setTotalAmount(totalAmount);
+
         } else if (nextHandler != null) {
             nextHandler.handleRequest(reportType, budgetDto, report);
         }
     }
 }
+

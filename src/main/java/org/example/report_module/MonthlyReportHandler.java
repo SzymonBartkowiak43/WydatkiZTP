@@ -16,15 +16,20 @@ public class MonthlyReportHandler extends ReportHandler {
             LocalDate monthAgo = now.minusMonths(1);
 
             List<ExpenseDto> monthlyExpenses = budgetDto.getExpenses().stream()
-                    .filter(expense -> expense.getDate().isAfter(monthAgo))
+                    .filter(expense ->
+                            !expense.getDate().isBefore(monthAgo) &&
+                                    !expense.getDate().isAfter(now))
                     .toList();
-
             report.setExpenses(monthlyExpenses);
-            report.setTotalAmount(monthlyExpenses.stream()
+            BigDecimal totalAmount = monthlyExpenses.stream()
                     .map(ExpenseDto::getAmount)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add));
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+            report.setTotalAmount(totalAmount);
+
         } else if (nextHandler != null) {
             nextHandler.handleRequest(reportType, budgetDto, report);
         }
     }
 }
+
