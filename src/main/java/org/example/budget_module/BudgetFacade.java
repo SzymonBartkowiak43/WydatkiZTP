@@ -2,11 +2,14 @@ package org.example.budget_module;
 
 import lombok.AllArgsConstructor;
 import org.example.budget_module.dto.BudgetDto;
+import org.example.budget_module.dto.CategoryDto;
+import org.example.budget_module.dto.ExpenseDto;
 import org.example.budget_module.dto.RevenueDto;
 import org.example.report_module.ReportFacade;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -19,8 +22,11 @@ public class BudgetFacade {
     public BudgetDto createBudget(String name, BigDecimal amount) {
         Budget budget = budgetService.createBudget(name, amount);
 
+        List<CategoryDto> categoryDtos = budget.getCategories().stream()
+                .map(category -> new CategoryDto(category.getName()))
+                .toList();
 
-        return new BudgetDto(budget.getId(), budget.getName(), budget.getAmount());
+        return new BudgetDto(budget.getId(), budget.getName(), budget.getAmount(),categoryDtos);
     }
 
     public Long addRevenue(Long budgetId, RevenueDto revenueDto) {
@@ -28,42 +34,39 @@ public class BudgetFacade {
         return budgetId;
     }
 
-    public String generateRaport() {
-        reportFacade.generate("weekly");
-        return "success";
-    }
-
     public BudgetDto addCategoryToBudget(Long id, String categoryName) {
         Budget budget = budgetService.addCategory(id, categoryName);
 
-        return new BudgetDto(budget.getId(), budget.getName(), budget.getAmount());
+        List<CategoryDto> categoryDtos = budget.getCategories().stream()
+                .map(category -> new CategoryDto(category.getName()))
+                .toList();
+
+        return new BudgetDto(budget.getId(), budget.getName(), budget.getAmount(),categoryDtos);
     }
 
     public BudgetDto getBudget(Long id) {
         Budget budget = budgetService.getBudget(id);
-        return new BudgetDto(budget.getId(), budget.getName(), budget.getAmount());
+
+        List<CategoryDto> categoryDtos = budget.getCategories().stream()
+                .map(category -> new CategoryDto(category.getName()))
+                .toList();
+
+        return new BudgetDto(budget.getId(), budget.getName(), budget.getAmount(),categoryDtos);
     }
 
+    public BudgetDto addExpense(Long budgetId, ExpenseDto expenseDto) {
+        Budget budget = budgetService.addExpense(budgetId, expenseDto);
 
-//    public BudgetDto addCategoryToBudget(String budgetName, String categoryName) {
-//        Category category = budgetService.addCategoryToBudget(budgetName, categoryName)
-//                .orElseThrow(() -> new RuntimeException("Category with this name already exists!"));
-//
-//        Budget budget = budgetService.createBudget(budgetName, BigDecimal.ZERO);
-//        BudgetDto budgetDto = new BudgetDto(budget.getName(), budget.getAmount());
-//        budget.getCategories().forEach(c -> budgetDto.getCategories().add(c.getName()));
-//        return budgetDto;
-//    }
-//
+        List<CategoryDto> categoryDtos = budget.getCategories().stream()
+                .map(category -> new CategoryDto(category.getName()))
+                .toList();
 
-//
-//    public BudgetDto addExpense(String budgetName, ExpenseDto expenseDto) {
-//        Expense expense = new Expense(expenseDto.getDescription(), expenseDto.getAmount());
-//        budgetService.addExpenseToBudget(budgetName, expense);
-//
-//        Budget budget = budgetService.createBudget(budgetName, BigDecimal.ZERO);
-//        return new BudgetDto(budget.getName(), budget.getAmount());
-//    }
+        return new BudgetDto(budget.getId(), budget.getName(), budget.getAmount(),categoryDtos);
+    }
 
+    public String generateRaport() {
+        reportFacade.generate("weekly");
+        return "success";
+    }
 
 }

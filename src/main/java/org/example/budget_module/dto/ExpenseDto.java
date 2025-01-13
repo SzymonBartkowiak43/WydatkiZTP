@@ -13,11 +13,11 @@ import java.time.LocalDate;
 public class ExpenseDto {
     private String description;
     private BigDecimal amount;
-    private LocalDate date;
+    private String category;
 
-    public ExpenseDto(String description, BigDecimal amount, LocalDate localDate) {
+    public ExpenseDto(String description, BigDecimal amount, String category) {
         this.description = description;
         this.amount = amount;
-        this.date = localDate;
+        this.category = category;
     }
 }

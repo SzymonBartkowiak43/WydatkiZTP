@@ -1,6 +1,7 @@
 package org.example.budget_module;
 
 import lombok.AllArgsConstructor;
+import org.example.budget_module.dto.ExpenseDto;
 import org.example.budget_module.dto.RevenueDto;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ class BudgetService {
 
     private final BudgetRepository budgetRepository;
     private final CategoryRepository categoryRepository;
+    private final ExpenseRepository expenseRepository;
 
     Budget createBudget(String name, BigDecimal amount) {
         budgetRepository.findByName(name).ifPresent(budget -> {
@@ -58,17 +60,27 @@ class BudgetService {
         return budgetRepository.findById(id).get();
     }
 
-//    public Optional<Category> addCategoryToBudget(String budgetName, String categoryName) {
-//        Budget budget = budgetRepository.findByName(budgetName)
-//                .orElseThrow(() -> new RuntimeException("Budget not found!"));
-//        return budget.addCategory(categoryName);
-//    }
-//
-//    public void addExpenseToBudget(String budgetName, Expense expense) {
-//        Budget budget = budgetRepository.findByName(budgetName)
-//                .orElseThrow(() -> new RuntimeException("Budget not found!"));
-//        budget.addExpense(expense);
-//        budgetRepository.save(budget);
-//    }
+    public Budget addExpense(Long budgetId, ExpenseDto expenseDto) {
+        Budget budget = budgetRepository.findById(budgetId)
+                .orElseThrow(() -> new IllegalArgumentException("Budget not found"));
+
+        if(expenseDto.getCategory().length() < 2) {
+            expenseDto.setCategory("none");
+        }
+
+        Expense expense = new Expense(
+                expenseDto.getDescription(),
+                expenseDto.getAmount(),
+                expenseDto.getCategory()
+        );
+
+        expense.setBudget(budget);
+        expenseRepository.save(expense);
+
+        budget.addExpense(expenseDto.getAmount());
+        Budget save = budgetRepository.save(budget);
+
+        return save;
+    }
 
 }

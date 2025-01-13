@@ -50,6 +50,10 @@ class Budget {
         this.amount = this.amount.add(bigDecimal);
     }
 
+    void addExpense(BigDecimal bigDecimal) {
+        this.amount = this.amount.subtract(bigDecimal);
+    }
+
     Optional<Category> addCategory(String categoryName) {
         boolean exists = categories.stream().anyMatch(c -> c.getName().equalsIgnoreCase(categoryName));
         if (exists) {
@@ -60,10 +64,4 @@ class Budget {
         categories.add(category);
         return Optional.of(category);
     }
-//
-//
-//    void addExpense(Expense expense) {
-//        expense.setBudget(this);
-//        expenses.add(expense);
-//    }
 }

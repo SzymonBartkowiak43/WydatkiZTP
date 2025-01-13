@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.example.budget_module.BudgetFacade;
 import org.example.budget_module.dto.BudgetDto;
+import org.example.budget_module.dto.CreateCategory;
+import org.example.budget_module.dto.ExpenseDto;
 import org.example.budget_module.dto.RevenueDto;
 import org.example.controller.dto.BudgetCreatedDto;
 import org.springframework.http.HttpStatus;
@@ -48,18 +50,18 @@ public class BudgetModuleController {
     @PostMapping("/budget/{id}/category")
     public ResponseEntity<BudgetDto> addCategoryToBudget(
             @PathVariable Long id,
-            @RequestParam String categoryName) {
-        BudgetDto budgetDto = budgetFacade.addCategoryToBudget(id, categoryName);
+            @RequestBody  CreateCategory categoryName) {
+        BudgetDto budgetDto = budgetFacade.addCategoryToBudget(id, categoryName.name());
         return ResponseEntity.ok(budgetDto);
     }
 
-//
-//    @PostMapping("/budget/{budgetName}/expense")
-//    public ResponseEntity<BudgetDto> addExpense(
-//            @PathVariable String budgetName,
-//            @RequestBody ExpenseDto expenseDto) {
-//        BudgetDto budgetDto = budgetFacade.addExpense(budgetName, expenseDto);
-//        return ResponseEntity.ok(budgetDto);
-//    }
+
+    @PostMapping("/budget/{id}/expense")
+    public ResponseEntity<BudgetDto> addExpense(
+            @PathVariable Long id,
+            @RequestBody ExpenseDto expenseDto) {
+        BudgetDto budgetDto = budgetFacade.addExpense(id, expenseDto);
+        return ResponseEntity.ok(budgetDto);
+    }
 
 }
