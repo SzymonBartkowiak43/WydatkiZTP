@@ -12,6 +12,7 @@ import java.util.Date;
 
 @Setter
 @Entity
+@Getter
 class Revenue {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

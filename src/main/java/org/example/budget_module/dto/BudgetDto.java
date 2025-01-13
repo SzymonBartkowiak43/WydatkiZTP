@@ -35,4 +35,13 @@ public class BudgetDto {
         this.revenues = new ArrayList<>();
         this.expenses = new ArrayList<>();
     }
+
+    public BudgetDto(Long id, String name, BigDecimal amount, List<CategoryDto> categories, List<ExpenseDto> expenses, List<RevenueDto> revenues) {
+        this.id = id;
+        this.name = name;
+        this.amount = amount;
+        this.categories = categories;
+        this.expenses = expenses;
+        this.revenues = revenues;
+    }
 }

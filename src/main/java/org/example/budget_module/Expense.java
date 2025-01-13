@@ -1,6 +1,7 @@
 package org.example.budget_module;
 
 
+import lombok.Getter;
 import lombok.Setter;
 
 import jakarta.persistence.*;
@@ -8,6 +9,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Setter
+@Getter
 class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
