@@ -63,29 +63,23 @@ public class BudgetFacade {
                 .toList();
 
         List<ExpenseDto> expenseDtos = budget.getExpenses().stream()
-                .map(expense -> ExpenseDto.builder()
-                        .description(expense.getDescription())
-                        .amount(expense.getAmount())
-                        .category(expense.getCategory())
-                        .build())
+                .map(expense -> new ExpenseDto(expense.getDescription(), expense.getAmount(), expense.getCategory()))
                 .toList();
 
         List<RevenueDto> revenueDtos = budget.getRevenues().stream()
-                .map(revenue -> RevenueDto.builder()
-                        .source(revenue.getSource())
-                        .amount(revenue.getAmount())
-                        .build())
+                .map(revenue -> new RevenueDto(revenue.getSource(), revenue.getAmount()))
                 .toList();
 
-        return new BudgetDto(
-                budget.getId(),
-                budget.getName(),
-                budget.getAmount(),
-                categoryDtos,
-                expenseDtos,
-                revenueDtos
-        );
+        return new BudgetDto.BudgetDtoBuilder()
+                .id(budget.getId())
+                .name(budget.getName())
+                .amount(budget.getAmount())
+                .categories(categoryDtos)
+                .revenues(revenueDtos)
+                .expenses(expenseDtos)
+                .build();
     }
+
 
 
 }
